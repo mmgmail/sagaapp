@@ -4,7 +4,7 @@ import { GET_SOME_DATA, actionCreators } from "../actions";
 
 export function* asyncFetchSomeData() {
   try {
-		const someData = yield call(Api.getSomeData);
+    const someData = yield call(Api.getSomeData);
     yield put(actionCreators.someFetchSucceded(someData));
   } catch (e) {
     yield put(actionCreators.someFetchFailed(e));
