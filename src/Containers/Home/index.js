@@ -54,9 +54,9 @@ class Home extends PureComponent {
             ? <ActivityIndicator size={'large'}/>
             : someData
             ? <View>
-              {someData.articles.map((elem, idx) => (
+              {someData.map(elem => (
                   <ListItem
-                    key={idx}
+                    key={elem.id}
                     leftAvatar={{ source: { uri: elem.urlToImage } }}
                     title={elem.title}
                     subtitle={elem.description}
