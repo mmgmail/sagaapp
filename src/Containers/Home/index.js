@@ -14,8 +14,8 @@ class Home extends PureComponent {
           {!!isLoading
             ? <ActivityIndicator /> 
             : <View>
-              {someData && someData.map(elem => 
-                <Text key={elem.id}>{elem.title}</Text>
+              {someData && someData.articles.map((elem, idx) => 
+                <Text key={idx}>{elem.title}</Text>
               )}
             </View>
           }
