@@ -11,7 +11,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-import { Home } from 'AppContainers';
+import { AppNavigator } from 'AppNavigation';
 import rootReducer from './redux/reducers';
 import rootSaga from './redux/sagas'
 
@@ -25,7 +25,7 @@ sagaMiddleware.run(rootSaga);
 const App = () => {
   return (
     <Provider store={store}>
-      <Home />
+      <AppNavigator />
     </Provider>
   );
 };
