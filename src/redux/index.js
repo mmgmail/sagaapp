@@ -1,4 +1,4 @@
 import { actionCreators } from './actions';
-const { getSomeData, isFetching} = actionCreators;
+const { getSomeData, isFetching, getCategoriesData } = actionCreators;
 
-export { getSomeData, isFetching };
+export { getSomeData, isFetching, getCategoriesData };

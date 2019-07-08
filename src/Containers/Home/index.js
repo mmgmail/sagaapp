@@ -7,13 +7,15 @@ import {
   RefreshControl
 } from "react-native";
 import { connect } from 'react-redux';
-import { ListItem } from 'react-native-elements'
-import { getSomeData, isFetching} from 'AppRedux';
+import { Text, ListItem, ButtonGroup } from 'react-native-elements'
+import { getSomeData, isFetching, getCategoriesData } from 'AppRedux';
+import { CATEGORIES } from 'AppConstans';
 
 class Home extends PureComponent {
 
   state = {
-    refreshing: false
+    refreshing: false,
+    selectedIndex: -1
   };
 
   componentDidMount() {
@@ -36,11 +38,25 @@ class Home extends PureComponent {
     });
   };
 
+  updateIndex = selectedIndex => {
+    const { isFetching, getCategoriesData } = this.props;
+
+    this.setState({ selectedIndex });
+    isFetching();
+    getCategoriesData();
+  };
+
   render() {
     const { someData, isLoading, message, navigation } = this.props;
-
+    const buttons = ['ALL', ...CATEGORIES];
     return (
       <SafeAreaView>
+        <ButtonGroup
+          onPress={this.updateIndex}
+          selectedIndex={this.state.selectedIndex}
+          buttons={buttons}
+          containerStyle={{ height: 30 }}
+        />
         <ScrollView 
           contentInsetAdjustmentBehavior="automatic"
           refreshControl={
@@ -87,14 +103,16 @@ const mapStateToProps = state => {
   return {
     someData: state.home.someData,
     isLoading: state.home.isLoading,
-    message: state.home.message
+    message: state.home.message,
+    categoryData: state.home.categoryData
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     isFetching: () => dispatch(isFetching()),
-    getSomeData: () => dispatch(getSomeData())
+    getSomeData: () => dispatch(getSomeData()),
+    getCategoriesData: () => dispatch(getCategoriesData())
   };
 };
 

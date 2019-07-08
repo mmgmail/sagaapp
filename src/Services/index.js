@@ -1,4 +1,4 @@
-import { URL } from 'AppConstans';
+import { URL, URLS } from 'AppConstans';
 
 export class Api {
   static async getSomeData() {
@@ -9,11 +9,16 @@ export class Api {
     return await response.json();
   }
 
-  // static async getCategoryData(cat) {
-  //   const response = await fetch(`https://newsapi.org/v2/top-headlines?country=au&category=${cat}&apiKey=2822a86cf66c4cc8a3306d7ac63dc2f6`);
-  //   if (!response.ok) {
-  //     throw new Error(response.status);
-  //   }
-  //   return await response.json();
-  // }
+  static async getCategoriesData() {
+    const dataUrls = [];
+    for (let url of URLS) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      const res = await response.json()
+      await dataUrls.push(res);
+    }
+    return await dataUrls;
+  }
 }
