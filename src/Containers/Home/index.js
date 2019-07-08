@@ -37,7 +37,7 @@ class Home extends PureComponent {
   };
 
   render() {
-    const { someData, isLoading, message } = this.props;
+    const { someData, isLoading, message, navigation } = this.props;
 
     return (
       <SafeAreaView>
@@ -61,7 +61,15 @@ class Home extends PureComponent {
                     title={elem.title}
                     subtitle={elem.description}
                     bottomDivider
-                    onPress={() => {}}
+                    onPress={() => 
+                      navigation.navigate('Details',
+                        {
+                          title: elem.title,
+                          content: elem.content,
+                          image: elem.urlToImage,
+                        }
+                      )
+                    }
                   />
                 ))}
               </View>

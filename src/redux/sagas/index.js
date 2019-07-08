@@ -3,7 +3,7 @@ import { Api } from 'AppApi';
 import { GET_SOME_DATA, actionCreators } from "../actions";
 import _ from 'lodash'
 
-export function* asyncFetchSomeData() {
+export function* asyncFetchSomeData(url) {
   try {
     const data = yield call(Api.getSomeData);
     const setDataId = () => {

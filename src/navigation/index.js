@@ -1,11 +1,11 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
-import { Home } from 'AppContainers';
+import { Home, Details } from 'AppContainers';
 
 const AppNavigator = createAppContainer(
   createStackNavigator(
     {
-      Home
-      // Details: DetailsScreen
+      Home,
+      Details 
     },
     {
       initialRouteName: 'Home'
