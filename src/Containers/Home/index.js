@@ -71,7 +71,7 @@ class Home extends PureComponent {
       message,
       navigation
     } = this.props;
-    const buttons = ['ALL', ...CATEGORIES];
+    const buttons = ['default', ...CATEGORIES];
     return (
       <SafeAreaView>
         <ButtonGroup
