@@ -35,7 +35,21 @@ class Details extends PureComponent {
   render() {
     const { navigation } = this.props;
     const elem = navigation.getParam('elem');
-
+    const findBracket1 =
+      elem.content && elem.content.includes("[")
+        ? elem.content.indexOf("[")
+        : -1;
+    const findBracket2 =
+      elem.content && elem.content.includes("]")
+        ? elem.content.indexOf("]") + 1
+        : -1;
+    const content =
+      findBracket1 !== -1 && findBracket1 !== -1
+        ? elem.content.replace(
+            elem.content.substring(findBracket1, findBracket2),
+            ''
+          )
+        : elem.content;
     return (
       <View>
         <ScrollView 
@@ -51,7 +65,7 @@ class Details extends PureComponent {
               style={{ height: 300, resizeMode: 'cover' }}
             />
             <Text h4 style={{ marginTop: 5 }}>{elem.title}</Text>
-            <Text style={{ marginTop: 10 }}>{elem.content}</Text>
+            <Text style={{ marginTop: 10 }}>{content}</Text>
             <Text style={{ marginBottom: 5, marginTop: 15, color: 'grey' }}>{'To continue look at:'}</Text>
             <TouchableOpacity onPress={() => this.toWebView(elem.url)}>
               <Text style={{ marginBottom: 15, color: 'lightblue' }}>{elem.url}</Text>
