@@ -24,9 +24,10 @@ class Home extends PureComponent {
   }
 
   fetchData = () => {
-    const { isFetching, getSomeData } = this.props;
+    const { isFetching, getSomeData, getCategoriesData } = this.props;
     isFetching();
     getSomeData();
+    getCategoriesData();
   };
 
   refreshData = () => {
@@ -53,12 +54,12 @@ class Home extends PureComponent {
     this.scrollView.scrollTo({ x: 0, y: 0 });
     if((selectedIndex - 1) === -1) {
       this.setState({ selectedIndex: selectedIndex - 1 });
-      this.fetchData();
+      // this.fetchData();
     } else {
-      const { isFetching, getCategoriesData } = this.props;
+      // const { isFetching, getCategoriesData } = this.props;
       this.setState({ selectedIndex: selectedIndex - 1 });
-      isFetching();
-      getCategoriesData();
+      // isFetching();
+      // getCategoriesData();
     }
   };
 
