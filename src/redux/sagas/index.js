@@ -31,12 +31,13 @@ export function* watchFetchSomeData() {
 export function* asyncFetchCategoriesData() {
   try {
     const results = yield call(Api.getCategoriesData);
-    console.log('results', results);
     const serCombineCat = () => {
       const catResults = [];
       for (let i = 0; i <= results.length - 1; i++) {
         catResults.push({
-          [CATEGORIES[i]]: { id: _.uniqueId(), ...results[i] }
+          id: _.uniqueId(),
+          category: CATEGORIES[i],
+          ...results[i]
         });
       }
       return catResults;

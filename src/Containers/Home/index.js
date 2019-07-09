@@ -29,33 +29,55 @@ class Home extends PureComponent {
   };
 
   refreshData = () => {
-    const { getSomeData } = this.props;
+    const { getSomeData, getCategoriesData } = this.props;
     this.setState({ refreshing: true });
-    Promise.resolve(getSomeData()).then(() => {
-      setTimeout(() => {
-        this.setState({ refreshing: false });
-      }, 600);
-    });
+    if (this.state.index === -1) {
+      Promise.resolve(getSomeData()).then(() => {
+        setTimeout(() => {
+          this.setState({ refreshing: false });
+        }, 600);
+      });
+    }
+
+    if (this.state.index !== -1) {
+      Promise.resolve(getCategoriesData()).then(() => {
+        setTimeout(() => {
+          this.setState({ refreshing: false });
+        }, 600);
+      });
+    }
   };
 
   updateIndex = selectedIndex => {
-    const { isFetching, getCategoriesData } = this.props;
-
-    this.setState({ selectedIndex });
-    isFetching();
-    getCategoriesData();
+    if((selectedIndex - 1) === -1) {
+      this.setState({ selectedIndex: selectedIndex - 1 });
+      this.refreshData();
+    } else {
+      const { isFetching, getCategoriesData } = this.props;
+      this.setState({ selectedIndex: selectedIndex - 1 });
+      isFetching();
+      getCategoriesData();
+    }
   };
 
   render() {
-    const { someData, isLoading, message, navigation } = this.props;
+    const {
+      someData,
+      categoryData,
+      isLoading,
+      message,
+      navigation
+    } = this.props;
     const buttons = ['ALL', ...CATEGORIES];
     return (
       <SafeAreaView>
         <ButtonGroup
           onPress={this.updateIndex}
-          selectedIndex={this.state.selectedIndex}
+          selectedIndex={this.state.selectedIndex + 1}
           buttons={buttons}
           containerStyle={{ height: 30 }}
+          textStyle={{ fontSize: 8 }}
+          innerBorderStyle={{ borderRadius: 15 }}
         />
         <ScrollView 
           contentInsetAdjustmentBehavior="automatic"
@@ -68,12 +90,41 @@ class Home extends PureComponent {
         >
           {!!isLoading
             ? <ActivityIndicator size={'large'}/>
-            : someData
+            : categoryData && this.state.selectedIndex !== -1
+            ? <View>
+            {categoryData[this.state.selectedIndex].articles.map((elem, idx) => (
+                <ListItem
+                  key={idx}
+                  leftAvatar={
+                    elem.urlToImage
+                      ? { source: { uri: elem.urlToImage } }
+                      : { source: { uri: 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps' } }
+                  }
+                  title={elem.title}
+                  subtitle={elem.description}
+                  bottomDivider
+                  onPress={() => 
+                    navigation.navigate('Details',
+                      {
+                        title: elem.title,
+                        content: elem.content,
+                        image: elem.urlToImage || 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps',
+                      }
+                    )
+                  }
+                />
+              ))}
+            </View>
+            : someData && this.state.selectedIndex === -1
             ? <View>
               {someData.map(elem => (
                   <ListItem
                     key={elem.id}
-                    leftAvatar={{ source: { uri: elem.urlToImage } }}
+                    leftAvatar={
+                      elem.urlToImage
+                        ? { source: { uri: elem.urlToImage } }
+                        : { source: { uri: 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps' } }
+                    }
                     title={elem.title}
                     subtitle={elem.description}
                     bottomDivider
@@ -82,7 +133,7 @@ class Home extends PureComponent {
                         {
                           title: elem.title,
                           content: elem.content,
-                          image: elem.urlToImage,
+                          image: elem.urlToImage || 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps',
                         }
                       )
                     }

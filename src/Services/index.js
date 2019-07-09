@@ -16,7 +16,7 @@ export class Api {
       if (!response.ok) {
         throw new Error(response.status);
       }
-      const res = await response.json()
+      const res = await response.json();
       await dataUrls.push(res);
     }
     return await dataUrls;
