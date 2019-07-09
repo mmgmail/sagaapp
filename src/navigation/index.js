@@ -4,8 +4,18 @@ import { Home, Details } from 'AppContainers';
 const AppNavigator = createAppContainer(
   createStackNavigator(
     {
-      Home,
-      Details 
+      Home: {
+        screen: Home,
+        navigationOptions: {
+          title: 'News List'
+        }
+      },
+      Details: {
+        screen: Details,
+        navigationOptions: {
+          title: 'Detailed News'
+        }
+      }
     },
     {
       initialRouteName: 'Home'

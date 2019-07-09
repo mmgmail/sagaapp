@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux';
 import { Text, ListItem, ButtonGroup } from 'react-native-elements'
+import moment from 'moment';
 import { getSomeData, isFetching, getCategoriesData } from 'AppRedux';
 import { CATEGORIES } from 'AppConstans';
 
@@ -49,9 +50,10 @@ class Home extends PureComponent {
   };
 
   updateIndex = selectedIndex => {
+    this.scrollView.scrollTo({ x: 0, y: 0 });
     if((selectedIndex - 1) === -1) {
       this.setState({ selectedIndex: selectedIndex - 1 });
-      this.refreshData();
+      this.fetchData();
     } else {
       const { isFetching, getCategoriesData } = this.props;
       this.setState({ selectedIndex: selectedIndex - 1 });
@@ -81,6 +83,7 @@ class Home extends PureComponent {
         />
         <ScrollView 
           contentInsetAdjustmentBehavior="automatic"
+          ref={ref => this.scrollView = ref}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -101,16 +104,15 @@ class Home extends PureComponent {
                       : { source: { uri: 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps' } }
                   }
                   title={elem.title}
-                  subtitle={elem.description}
+                  subtitle={
+                    <View>
+                      <Text style={{ marginTop: 5, color: 'grey' }}>{elem.description}</Text>
+                      <Text style={{ marginTop: 10, color: 'lightgrey', fontSize: 12 }}>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</Text>
+                    </View>
+                  }
                   bottomDivider
                   onPress={() => 
-                    navigation.navigate('Details',
-                      {
-                        title: elem.title,
-                        content: elem.content,
-                        image: elem.urlToImage || 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps',
-                      }
-                    )
+                    navigation.navigate('Details', { elem })
                   }
                 />
               ))}
@@ -126,16 +128,15 @@ class Home extends PureComponent {
                         : { source: { uri: 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps' } }
                     }
                     title={elem.title}
-                    subtitle={elem.description}
+                    subtitle={
+                      <View>
+                        <Text style={{ marginTop: 5, color: 'grey' }}>{elem.description}</Text>
+                        <Text style={{ marginTop: 10, color: 'lightgrey', fontSize: 12 }}>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</Text>
+                      </View>
+                    }
                     bottomDivider
                     onPress={() => 
-                      navigation.navigate('Details',
-                        {
-                          title: elem.title,
-                          content: elem.content,
-                          image: elem.urlToImage || 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps',
-                        }
-                      )
+                      navigation.navigate('Details', { elem })
                     }
                   />
                 ))}
@@ -144,6 +145,7 @@ class Home extends PureComponent {
             ? <Text>{`Something went wrong!\n${message}`}</Text>
             : null
           }
+          <View style={{ paddingBottom: 40 }} />
         </ScrollView>
       </SafeAreaView>
     );

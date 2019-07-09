@@ -37,6 +37,13 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "SagaApp-tvOS";
 		};
+		424EA20B22D44F4300F06F51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 424EA20722D44F4300F06F51 /* RNCWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCWebView;
+		};
 		427FCD3922D1F5F9004C051D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 427FCD3422D1F5F9004C051D /* RNGestureHandler.xcodeproj */;
@@ -69,6 +76,7 @@
 		2D02E4901E0B4A5D006451C7 /* SagaApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SagaApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		396D0FB68D2558549A86D447 /* Pods-SagaApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SagaApp.debug.xcconfig"; path = "Target Support Files/Pods-SagaApp/Pods-SagaApp.debug.xcconfig"; sourceTree = "<group>"; };
 		3B8FB81113DD51A39CB61117 /* libPods-SagaApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SagaApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		424EA20722D44F4300F06F51 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		427FCD3422D1F5F9004C051D /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		5327BF993AC8B32A35978D35 /* Pods-SagaAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SagaAppTests.release.xcconfig"; path = "Target Support Files/Pods-SagaAppTests/Pods-SagaAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		578B833873AA75B96E9DB332 /* Pods-SagaApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SagaApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SagaApp-tvOSTests/Pods-SagaApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,6 +172,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		424EA20822D44F4300F06F51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				424EA20C22D44F4300F06F51 /* libRNCWebView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		427FCD3522D1F5F9004C051D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +192,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				424EA20722D44F4300F06F51 /* RNCWebView.xcodeproj */,
 				427FCD3422D1F5F9004C051D /* RNGestureHandler.xcodeproj */,
 			);
 			name = Libraries;
@@ -341,6 +358,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 424EA20822D44F4300F06F51 /* Products */;
+					ProjectRef = 424EA20722D44F4300F06F51 /* RNCWebView.xcodeproj */;
+				},
+				{
 					ProductGroup = 427FCD3522D1F5F9004C051D /* Products */;
 					ProjectRef = 427FCD3422D1F5F9004C051D /* RNGestureHandler.xcodeproj */;
 				},
@@ -356,6 +377,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		424EA20C22D44F4300F06F51 /* libRNCWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCWebView.a;
+			remoteRef = 424EA20B22D44F4300F06F51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		427FCD3A22D1F5F9004C051D /* libRNGestureHandler.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
