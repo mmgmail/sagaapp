@@ -56,7 +56,7 @@ class Details extends PureComponent {
           contentInsetAdjustmentBehavior="automatic"
         >
           <Card>
-            <Image 
+            <Image
               source={{
                 uri:
                   elem.urlToImage ||

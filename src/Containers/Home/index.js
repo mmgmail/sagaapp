@@ -1,6 +1,12 @@
 import React, { PureComponent } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { getSomeData, isFetching, getCategoriesData } from 'AppRedux';
+import {
+  getSomeData,
+  isFetching,
+  getCategoriesData,
+  setSeenArticles
+} from 'AppRedux';
 import { CATEGORIES } from 'AppConstans';
 import ContainerView from './view'
 
@@ -8,7 +14,8 @@ class Home extends PureComponent {
 
   state = {
     refreshing: false,
-    selectedIndex: -1
+    selectedIndex: -1,
+    stateSeenArticles: []
   };
 
   componentDidMount() {
@@ -16,7 +23,11 @@ class Home extends PureComponent {
   }
 
   fetchData = () => {
-    const { isFetching, getSomeData, getCategoriesData } = this.props;
+    const {
+      isFetching,
+      getSomeData,
+      getCategoriesData
+    } = this.props;
     isFetching();
     getSomeData();
     getCategoriesData();
@@ -44,11 +55,12 @@ class Home extends PureComponent {
 
   updateIndex = selectedIndex => {
     this.scrollView.scrollTo({ x: 0, y: 0 });
-    if (selectedIndex - 1 === -1) {
-      this.setState({ selectedIndex: selectedIndex - 1 });
-    } else {
-      this.setState({ selectedIndex: selectedIndex - 1 });
-    }
+    this.setState({ selectedIndex: selectedIndex - 1 });
+  };
+
+  setStateSeen = async () => {
+    await this.setState({ stateSeenArticles: [] });
+    this.setState({ stateSeenArticles: this.props.seenArticles });
   };
 
   render() {
@@ -57,12 +69,14 @@ class Home extends PureComponent {
       categoryData,
       isLoading,
       message,
-      navigation
+      navigation,
+      setSeenArticles
     } = this.props;
 
     const {
       selectedIndex,
-      refreshing
+      refreshing,
+      stateSeenArticles
     } = this.state;
 
     const buttons = ['default', ...CATEGORIES];
@@ -79,6 +93,9 @@ class Home extends PureComponent {
         scrollView={ref => this.scrollView = ref.ref}
         refreshData={this.refreshData}
         updateIndex={this.updateIndex}
+        setSeenArticles={setSeenArticles}
+        setStateSeen={this.setStateSeen}
+        stateSeenArticles={stateSeenArticles}
       />
     );
   }
@@ -89,7 +106,8 @@ const mapStateToProps = state => {
     someData: state.home.someData,
     isLoading: state.home.isLoading,
     message: state.home.message,
-    categoryData: state.home.categoryData
+    categoryData: state.home.categoryData,
+    seenArticles: state.home.seenArticles
   };
 };
 
@@ -97,7 +115,8 @@ const mapDispatchToProps = dispatch => {
   return {
     isFetching: () => dispatch(isFetching()),
     getSomeData: () => dispatch(getSomeData()),
-    getCategoriesData: () => dispatch(getCategoriesData())
+    getCategoriesData: () => dispatch(getCategoriesData()),
+    setSeenArticles: title => dispatch(setSeenArticles(title))
   };
 };
 

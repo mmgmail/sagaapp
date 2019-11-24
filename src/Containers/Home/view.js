@@ -26,7 +26,10 @@ const ContainerView = (
     refreshing,
     scrollView,
     refreshData,
-    updateIndex
+    updateIndex,
+    setSeenArticles,
+    stateSeenArticles,
+    setStateSeen
   } = this.props
 ) => (
   <SafeAreaView>
@@ -67,9 +70,15 @@ const ContainerView = (
                   <TextDate>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</TextDate>
                 </View>
               }
+              containerStyle={{
+                backgroundColor: stateSeenArticles.some(el => el == elem.title) ? '#efefef' : 'transparent'
+              }}
               bottomDivider
-              onPress={() => 
-                navigation.navigate('Details', { elem })
+              onPress={() => {
+                  setSeenArticles(elem.title);
+                  setStateSeen();
+                  navigation.navigate('Details', { elem });
+                }
               }
             />
           ))}
@@ -92,8 +101,14 @@ const ContainerView = (
                   </View>
                 }
                 bottomDivider
-                onPress={() => 
-                  navigation.navigate('Details', { elem })
+                containerStyle={{
+                  backgroundColor: stateSeenArticles.some(el => el == elem.title) ? '#efefef' : 'transparent'
+                }}
+                onPress={() => {
+                    setSeenArticles(elem.title);
+                    setStateSeen();
+                    navigation.navigate('Details', { elem });
+                  }
                 }
               />
             ))}

@@ -1,12 +1,19 @@
+// import { persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage';
 import {
   SOME_FETCH_SUCCEEDED,
   SOME_FETCH_FAILED,
   IS_FETCHING,
   CAT_FETCH_SUCCEEDED,
-  CAT_FETCH_FAILED
+  CAT_FETCH_FAILED,
+  SET_SEEN_ARCTICLES
 } from "../actions";
 
-const home = (state = {}, action) => {
+const initialState = {
+  seenArticles: []
+};
+
+const home = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case IS_FETCHING: {
@@ -41,6 +48,12 @@ const home = (state = {}, action) => {
         ...state,
         message: payload,
         isLoading: false
+      };
+    }
+    case SET_SEEN_ARCTICLES: {
+      state.seenArticles.push(payload);
+      return {
+        ...state
       };
     }
     default:
