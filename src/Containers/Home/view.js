@@ -8,6 +8,11 @@ import {
 } from "react-native";
 import { Text, ListItem, ButtonGroup } from 'react-native-elements';
 import moment from 'moment';
+import {
+  TextDescription,
+  TextDate,
+  Divider40
+} from './styled'
 
 const ContainerView = (
   {
@@ -58,8 +63,8 @@ const ContainerView = (
               title={elem.title}
               subtitle={
                 <View>
-                  <Text style={{ marginTop: 5, color: 'grey' }}>{elem.description}</Text>
-                  <Text style={{ marginTop: 10, color: 'lightgrey', fontSize: 12 }}>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</Text>
+                  <TextDescription>{elem.description}</TextDescription>
+                  <TextDate>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</TextDate>
                 </View>
               }
               bottomDivider
@@ -82,8 +87,8 @@ const ContainerView = (
                 title={elem.title}
                 subtitle={
                   <View>
-                    <Text style={{ marginTop: 5, color: 'grey' }}>{elem.description}</Text>
-                    <Text style={{ marginTop: 10, color: 'lightgrey', fontSize: 12 }}>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</Text>
+                    <TextDescription>{elem.description}</TextDescription>
+                    <TextDate>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</TextDate>
                   </View>
                 }
                 bottomDivider
@@ -97,7 +102,7 @@ const ContainerView = (
         ? <Text>{`Something went wrong!\n${message}`}</Text>
         : null
       }
-      <View style={{ paddingBottom: 40 }} />
+      <Divider40 />
     </ScrollView>
   </SafeAreaView>
 );
