@@ -1,16 +1,8 @@
 import React, { PureComponent } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  ActivityIndicator,
-  RefreshControl
-} from "react-native";
 import { connect } from 'react-redux';
-import { Text, ListItem, ButtonGroup } from 'react-native-elements'
-import moment from 'moment';
 import { getSomeData, isFetching, getCategoriesData } from 'AppRedux';
 import { CATEGORIES } from 'AppConstans';
+import ContainerView from './view'
 
 class Home extends PureComponent {
 
@@ -52,14 +44,10 @@ class Home extends PureComponent {
 
   updateIndex = selectedIndex => {
     this.scrollView.scrollTo({ x: 0, y: 0 });
-    if((selectedIndex - 1) === -1) {
+    if (selectedIndex - 1 === -1) {
       this.setState({ selectedIndex: selectedIndex - 1 });
-      // this.fetchData();
     } else {
-      // const { isFetching, getCategoriesData } = this.props;
       this.setState({ selectedIndex: selectedIndex - 1 });
-      // isFetching();
-      // getCategoriesData();
     }
   };
 
@@ -71,84 +59,27 @@ class Home extends PureComponent {
       message,
       navigation
     } = this.props;
+
+    const {
+      selectedIndex,
+      refreshing
+    } = this.state;
+
     const buttons = ['default', ...CATEGORIES];
     return (
-      <SafeAreaView>
-        <ButtonGroup
-          onPress={this.updateIndex}
-          selectedIndex={this.state.selectedIndex + 1}
-          buttons={buttons}
-          containerStyle={{ height: 30 }}
-          textStyle={{ fontSize: 8 }}
-          innerBorderStyle={{ borderRadius: 15 }}
-        />
-        <ScrollView 
-          contentInsetAdjustmentBehavior="automatic"
-          ref={ref => this.scrollView = ref}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.refreshData}
-            />
-          }
-        >
-          {!!isLoading
-            ? <ActivityIndicator size={'large'}/>
-            : categoryData && this.state.selectedIndex !== -1
-            ? <View>
-            {categoryData[this.state.selectedIndex].articles.map((elem, idx) => (
-                <ListItem
-                  key={idx}
-                  leftAvatar={
-                    elem.urlToImage
-                      ? { source: { uri: elem.urlToImage } }
-                      : { source: { uri: 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps' } }
-                  }
-                  title={elem.title}
-                  subtitle={
-                    <View>
-                      <Text style={{ marginTop: 5, color: 'grey' }}>{elem.description}</Text>
-                      <Text style={{ marginTop: 10, color: 'lightgrey', fontSize: 12 }}>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</Text>
-                    </View>
-                  }
-                  bottomDivider
-                  onPress={() => 
-                    navigation.navigate('Details', { elem })
-                  }
-                />
-              ))}
-            </View>
-            : someData && this.state.selectedIndex === -1
-            ? <View>
-              {someData.map(elem => (
-                  <ListItem
-                    key={elem.id}
-                    leftAvatar={
-                      elem.urlToImage
-                        ? { source: { uri: elem.urlToImage } }
-                        : { source: { uri: 'https://lh3.googleusercontent.com/0HbR3KT4N5b8jwhmLEieVnjzuU0qdzOWh-juElcId3-lTGNxFWaIyF-3Yn8cpbvk4ps' } }
-                    }
-                    title={elem.title}
-                    subtitle={
-                      <View>
-                        <Text style={{ marginTop: 5, color: 'grey' }}>{elem.description}</Text>
-                        <Text style={{ marginTop: 10, color: 'lightgrey', fontSize: 12 }}>{`Published at: ${moment(elem.publishedAt).format('LLL')}`}</Text>
-                      </View>
-                    }
-                    bottomDivider
-                    onPress={() => 
-                      navigation.navigate('Details', { elem })
-                    }
-                  />
-                ))}
-              </View>
-            : message
-            ? <Text>{`Something went wrong!\n${message}`}</Text>
-            : null
-          }
-          <View style={{ paddingBottom: 40 }} />
-        </ScrollView>
-      </SafeAreaView>
+      <ContainerView
+        someData={someData}
+        categoryData={categoryData}
+        isLoading={isLoading}
+        message={message}
+        navigation={navigation}
+        buttons={buttons}
+        selectedIndex={selectedIndex}
+        refreshing={refreshing}
+        scrollView={ref => this.scrollView = ref.ref}
+        refreshData={this.refreshData}
+        updateIndex={this.updateIndex}
+      />
     );
   }
 }
